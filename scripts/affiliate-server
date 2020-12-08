@@ -42,7 +42,7 @@ class Submit:
 
     @classmethod
     def unpack_isbn(cls, isbn):
-        isbn = normalize_isbn(isbn)
+        isbn = normalize_isbn(isbn.replace('-', ''))
         isbn10 = isbn if len(isbn) == 10 else isbn.startswith('978') and isbn_13_to_isbn_10(isbn)
         isbn13 = isbn if len(isbn) == 13 else isbn_10_to_isbn_13(isbn)
         return isbn10, isbn13
