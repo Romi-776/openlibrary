@@ -93,7 +93,7 @@ def amazon_lookup():
                 isbn_10s.add(web.amazon_queue.get(timeout=seconds_remaining(start_time)))
             except queue.Empty:
                 pass
-        if batch:
+        if isbn_10s:
             time.sleep(seconds_remaining(start_time))
             process_amazon_batch(list(isbn_10s))
 
