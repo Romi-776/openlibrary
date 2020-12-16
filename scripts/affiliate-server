@@ -47,7 +47,7 @@ API_MAX_WAIT_SECONDS = 3
 web.amazon_queue = queue.Queue()
 
 
-def process_batch(batch):
+def process_amazon_batch(batch):
     logger.info("process_amazon_batch(): {} items".format(len(batch)))
     try:
         products = web.amazon_api.get_products(batch, serialize=True)
@@ -96,7 +96,6 @@ class Submit:
         isbn10 = isbn if len(isbn) == 10 else isbn.startswith('978') and isbn_13_to_isbn_10(isbn)
         isbn13 = isbn if len(isbn) == 13 else isbn_10_to_isbn_13(isbn)
         return isbn10, isbn13
-
 
     def GET(self, isbn, threshold=4, wait=3):
         """
@@ -148,9 +147,9 @@ def load_config(configfile):
     ]
     if all(args):
         web.amazon_api = AmazonAPI(*args, throttling=0.9)
-        web.amazon_queue = set()
-        web.amazon_timer = time.time()
-        logger.exception("Initializing AmazonAPI")
+        logger.info("AmazonAPI Initialized")
+    else:
+        raise RuntimeError("{} is missing required keys.".format(configfile))
 
 
 def init_sentry(app):
