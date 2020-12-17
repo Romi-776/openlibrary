@@ -248,7 +248,7 @@ app = web.application(urls, locals())
 if __name__ == "__main__":
     setup_env()
     if "--gunicorn" in sys.argv:
-        sys.argv.pop(sys.argv.index("--gunicorn"))    
+        sys.argv.pop(sys.argv.index("--gunicorn"))
         start_gunicorn_server()
     else:
         start_server()
